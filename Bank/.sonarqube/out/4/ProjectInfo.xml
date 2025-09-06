@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ProjectInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+  <ProjectName>Bank.Domain</ProjectName>
+  <ProjectLanguage>C#</ProjectLanguage>
+  <ProjectType>Product</ProjectType>
+  <ProjectGuid>ea2c6a5e-8413-4924-a9f8-b2f5c3f9c94e</ProjectGuid>
+  <FullPath>C:\Bank\Bank.Domain\Bank.Domain.csproj</FullPath>
+  <IsExcluded>false</IsExcluded>
+  <AnalysisResults>
+    <AnalysisResult Id="FilesToAnalyze" Location="C:\Bank\.sonarqube\conf\4\FilesToAnalyze.txt" />
+  </AnalysisResults>
+  <AnalysisSettings>
+    <Property Name="sonar.cs.roslyn.reportFilePaths">C:\Bank\.sonarqube\out\4\Issues.json</Property>
+    <Property Name="sonar.cs.analyzer.projectOutPaths">C:\Bank\.sonarqube\out\4</Property>
+    <Property Name="sonar.cs.scanner.telemetry">C:\Bank\.sonarqube\out\4\Telemetry.json</Property>
+  </AnalysisSettings>
+  <Configuration>Debug</Configuration>
+  <Platform>AnyCPU</Platform>
+  <TargetFramework>net7.0</TargetFramework>
+</ProjectInfo>

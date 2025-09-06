@@ -1,0 +1,1 @@
+﻿C:\Bank\Bank.Domain\Models\BankAccount.cs

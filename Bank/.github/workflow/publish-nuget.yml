@@ -1,0 +1,67 @@
+name: Publish .NET package to GitHub Packages
+
+on:
+  push:
+    tags:
+      - "v*"              # Publica cuando crees un tag tipo v1.0.0
+  workflow_dispatch:      # O manualmente desde la UI
+
+env:
+  DOTNET_VERSION: "8.x"   # o 7.x si tu TFM es net7.0 (funciona con SDK 8 igualmente)
+
+jobs:
+  pack-and-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write   # NECESARIO para publicar a GitHub Packages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      # Calcula la versión del paquete a partir del tag v*
+      - name: Compute package version
+        id: version
+        shell: bash
+        run: |
+          ref="${GITHUB_REF#refs/tags/}"
+          if [[ "$ref" == v* ]]; then
+            echo "version=${ref#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=0.1.${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          fi
+          echo "Package version: $(cat $GITHUB_OUTPUT)"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build -c Release --no-restore
+
+      - name: Pack .nupkg + .snupkg
+        run: |
+          dotnet pack ./Bank.Domain/Bank.Domain.csproj \
+            -c Release --no-build -o out \
+            -p:PackageVersion=${{ steps.version.outputs.version }} \
+            -p:ContinuousIntegrationBuild=true
+
+      # Agrega la fuente de GitHub Packages usando el token del workflow
+      - name: Add GitHub Packages source
+        run: |
+          dotnet nuget remove source github || true
+          dotnet nuget add source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
+            --name "github" \
+            --username "${{ github.repository_owner }}" \
+            --password "${{ secrets.GITHUB_TOKEN }}" \
+            --store-password-in-clear-text
+
+      - name: Push package(s) to GitHub Packages
+        run: |
+          dotnet nuget push "out/*.nupkg" --source "github" --skip-duplicate
+          dotnet nuget push "out/*.snupkg" --source "github" --skip-duplicate

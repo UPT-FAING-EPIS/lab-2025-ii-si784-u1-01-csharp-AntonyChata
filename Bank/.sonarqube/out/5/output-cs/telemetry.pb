@@ -1,0 +1,1 @@
+HR2C:\Bank\Bank.Domain.Tests\Bank.Domain.Tests.csproj¢net7.0òCSharp11

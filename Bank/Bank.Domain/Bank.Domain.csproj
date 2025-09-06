@@ -1,0 +1,30 @@
+<!-- Bank.Domain/Bank.Domain.csproj -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+
+    <!-- Empaquetable -->
+    <IsPackable>true</IsPackable>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+
+    <!-- Metadatos NuGet -->
+    <PackageId>Bank.Domain</PackageId>
+    <Authors>Antony Chata</Authors>
+    <Company>Antony Chata</Company>
+    <Description>Dominio de ejemplo para pruebas bancarias con NUnit.</Description>
+    <PackageTags>bank;domain;ddd;sample</PackageTags>
+    <RepositoryUrl>https://github.com/${RepositoryOwner}/${RepositoryName}</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- Mejor experiencia de depuración/símbolos -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- (tus ItemGroup de referencias de test quedan en el proyecto de pruebas) -->
+</Project>
