@@ -1,30 +1,34 @@
+using System; // <- IMPORTANTE
+
 namespace Bank.Domain.Models
 {
     public class BankAccount
     {
-        private readonly string m_customerName;
-        private double m_balance;
-        private BankAccount() { }
-        public BankAccount(string customerName, double balance)
+        public string CustomerName { get; }
+        public double Balance { get; private set; }
+
+        public BankAccount(string customerName, double beginningBalance)
         {
-            m_customerName = customerName;
-            m_balance = balance;
+            CustomerName = customerName;
+            Balance = beginningBalance;
         }
-        public string CustomerName { get { return m_customerName; } }
-        public double Balance { get { return m_balance; }  }
+
         public void Debit(double amount)
         {
-            if (amount > m_balance)
-                throw new ArgumentOutOfRangeException("amount");
-            if (amount < 0)
-                throw new ArgumentOutOfRangeException("amount");
-            m_balance -= amount;
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be positive.");
+            if (amount > Balance)
+                throw new InvalidOperationException("Amount exceeds balance.");
+
+            Balance -= amount;
         }
+
         public void Credit(double amount)
         {
-            if (amount < 0)
-                throw new ArgumentOutOfRangeException("amount");
-            m_balance += amount;
+            if (amount <= 0)
+                throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be positive.");
+
+            Balance += amount;
         }
     }
 }
